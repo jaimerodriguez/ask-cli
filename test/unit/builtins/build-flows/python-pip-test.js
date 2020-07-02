@@ -23,7 +23,7 @@ describe('PythonPipBuildFlow test', () => {
         debugStub = sinon.stub(AbstractBuildFlow.prototype, 'debug');
         createZipStub = sinon.stub(AbstractBuildFlow.prototype, 'createZip').yields();
         platformStub = sinon.stub(process, 'platform').value('darwin');
-        checkVersionStub = sinon.stub(childProcess, 'execSync').withArgs(sinon.match('--version')).returns('Python 3.7.2');
+        checkVersionStub = sinon.stub(childProcess, 'spawnSync').returns({ output: ', Python 3.7.2 ,' });
     });
     describe('# inspect correctness of execute', () => {
         it('| should execute commands', (done) => {
@@ -72,11 +72,11 @@ describe('PythonPipBuildFlow test', () => {
         });
 
         it('| should throw error when python 2 is used', (done) => {
-            checkVersionStub.returns('Python 2.7.2');
+            checkVersionStub.returns({ output: ', Python 2.7.2 ,' });
             const buildFlow = new PythonPipBuildFlow(config);
 
             buildFlow.execute((err, res) => {
-                expect(err.message).eql('Current python (Python 2.7.2) is not supported. '
+                expect(err.message).eql('Current python (2.7.2) is not supported. '
                 + 'Please make sure you are using python3, or use your custom script to build the code.');
                 expect(res).eql(undefined);
                 expect(checkVersionStub.callCount).eql(1);
