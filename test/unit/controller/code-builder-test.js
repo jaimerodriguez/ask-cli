@@ -35,7 +35,7 @@ describe('Controller test - CodeBuilder test', () => {
 
     describe('# inspect correctness of execute method', () => {
         it('| should execute zip only build flow when no other build flow is found', (done) => {
-            sinon.stub(fs, 'statSync').returns({ isDirectory: sinon.stub().returns(true) });
+            sinon.stub(path, 'join');
             sinon.stub(fs, 'existsSync').returns(false);
             const executeStub = sinon.stub(ZipOnlyBuildFlow.prototype, 'execute').yields();
             const codeBuilder = new CodeBuilder(config);
@@ -49,22 +49,8 @@ describe('Controller test - CodeBuilder test', () => {
             });
         });
 
-        it('| should execute zip only build flow when source is not a directory', (done) => {
-            sinon.stub(fs, 'statSync').returns({ isDirectory: sinon.stub().returns(false) });
-            const executeStub = sinon.stub(ZipOnlyBuildFlow.prototype, 'execute').yields();
-            const codeBuilder = new CodeBuilder(config);
-
-            codeBuilder.execute((err, res) => {
-                expect(err).eql(undefined);
-                expect(res).eql(undefined);
-                expect(codeBuilder.buildFlowName).equal('ZipOnlyBuildFlow');
-                expect(executeStub.callCount).equal(1);
-                done();
-            });
-        });
-
         it('| should execute node js npm build flow', (done) => {
-            sinon.stub(fs, 'statSync').returns({ isDirectory: sinon.stub().returns(true) });
+            sinon.stub(path, 'join').returns('package.json');
             sinon.stub(fs, 'existsSync').withArgs(sinon.match('package.json')).returns(true);
             const executeStub = sinon.stub(NodeJsNpmBuildFlow.prototype, 'execute').yields();
             const codeBuilder = new CodeBuilder(config);
