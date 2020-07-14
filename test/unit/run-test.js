@@ -11,6 +11,7 @@ require('module-alias/register');
     '@test/unit/builtins/lambda-deployer/index-test.js',
     '@test/unit/builtins/lambda-deployer/helper-test.js',
     '@test/unit/builtins/build-flows/abstract-build-flow-test.js',
+    '@test/unit/builtins/build-flows/custom-test.js',
     '@test/unit/builtins/build-flows/java-mvn-test.js',
     '@test/unit/builtins/build-flows/nodejs-npm-test.js',
     '@test/unit/builtins/build-flows/python-pip-test.js',

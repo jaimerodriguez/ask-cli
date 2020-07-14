@@ -50,8 +50,12 @@ describe('Controller test - CodeBuilder test', () => {
         });
 
         it('| should execute node js npm build flow', (done) => {
-            sinon.stub(path, 'join').returns('package.json');
-            sinon.stub(fs, 'existsSync').withArgs(sinon.match('package.json')).returns(true);
+            sinon.stub(path, 'join')
+                .returns('some-file')
+                .withArgs(sinon.match.any, sinon.match('package.json')).returns('package.json');
+            sinon.stub(fs, 'existsSync')
+                .returns(false)
+                .withArgs(sinon.match('package.json')).returns(true);
             const executeStub = sinon.stub(NodeJsNpmBuildFlow.prototype, 'execute').yields();
             const codeBuilder = new CodeBuilder(config);
 
