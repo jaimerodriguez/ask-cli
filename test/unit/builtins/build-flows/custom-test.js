@@ -29,7 +29,7 @@ describe('CustomBuildFlow test', () => {
             buildFlow.execute((err, res) => {
                 expect(err).eql(undefined);
                 expect(res).eql(undefined);
-                expect(execStub.args[0][0]).eql('some-script');
+                expect(execStub.args[0][0]).eql('some-script buildFile false');
                 done();
             });
         });
@@ -41,7 +41,7 @@ describe('CustomBuildFlow test', () => {
             buildFlow.execute((err, res) => {
                 expect(err).eql(undefined);
                 expect(res).eql(undefined);
-                expect(execStub.args[0][0]).eql('some-script');
+                expect(execStub.args[0][0]).eql('some-script buildFile true');
                 expect(debugStub.args[0][0]).eql('Executing custom hook script some-script.');
                 done();
             });
